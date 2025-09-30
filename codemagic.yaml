@@ -5,8 +5,6 @@ workflows:
       vars:
         GRADLE_OPTS: "-Xmx2048m -Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=-Xmx2048m"
       java: 17
-      android:
-        image: latest
     scripts:
       - name: Set gradlew permissions
         script: chmod +x ./gradlew
