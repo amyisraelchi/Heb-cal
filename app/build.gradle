@@ -13,6 +13,8 @@ android {
         targetSdk 34
         versionCode 1
         versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -26,12 +28,15 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
-    kotlinOptions { jvmTarget = "17" }
+
+    kotlinOptions {
+        jvmTarget = "17"
+    }
 }
 
 dependencies {
-    // SmartSpacer SDK
-    implementation 'com.github.KieronQuinn:SmartspacerPlugins:1.0.0'
+    // ✅ Correct SmartSpacer SDK
+    implementation 'com.kieronquinn.smartspacer:sdk-plugin:1.1'
 
     // Networking
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -42,10 +47,12 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3'
 
-    // JSON
+    // JSON parsing
     implementation 'com.google.code.gson:gson:2.10.1'
 
-    // Location & WorkManager
+    // Location (optional)
     implementation 'com.google.android.gms:play-services-location:21.0.1'
+
+    // WorkManager for scheduling updates
     implementation 'androidx.work:work-runtime-ktx:2.8.1'
 }
