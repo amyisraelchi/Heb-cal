@@ -6,53 +6,62 @@
 ##
 ##############################################################################
 
-APP_HOME=$(cd "$(dirname "$0")"; pwd)
+# Attempt to set APP_HOME
+PRG="$0"
+# Need this for relative symlinks.
+while [ -h "$PRG" ]; do
+  ls=`ls -ld "$PRG"`
+  link=`expr "$ls" : '.*-> \(.*\)$'`
+  if expr "$link" : '/.*' > /dev/null; then
+    PRG="$link"
+  else
+    PRG=`dirname "$PRG"`"/$link"
+  fi
+done
+SAVED="`pwd`"
+cd "`dirname \"$PRG\"`/" >/dev/null
+APP_HOME="`pwd -P`"
+cd "$SAVED" >/dev/null
 
 APP_NAME="Gradle"
-APP_BASE_NAME=$(basename "$0")
+APP_BASE_NAME=`basename "$0"`
 
-# Add default JVM options here if desired
+# Add default JVM options here
 DEFAULT_JVM_OPTS=""
 
 # Use the maximum available, or set MAX_FD != -1 to use that value.
 MAX_FD="maximum"
 
 warn () {
-    echo "$*"
+  echo "$*"
 }
 
 die () {
-    echo
-    echo "$*"
-    echo
-    exit 1
+  echo
+  echo "$*"
+  echo
+  exit 1
 }
 
 # OS specific support (must be 'true' or 'false').
 cygwin=false
 msys=false
 darwin=false
-case "$(uname)" in
-  CYGWIN*) cygwin=true ;;
-  MINGW*)  msys=true ;;
-  Darwin*) darwin=true ;;
+nonstop=false
+case "`uname`" in
+  CYGWIN* )
+    cygwin=true
+    ;;
+  Darwin* )
+    darwin=true
+    ;;
+  MINGW* )
+    msys=true
+    ;;
+  NONSTOP* )
+    nonstop=true
+    ;;
 esac
-
-# Resolve symlinks
-PRG="$0"
-while [ -h "$PRG" ] ; do
-    ls=$(ls -ld "$PRG")
-    link=$(expr "$ls" : '.*-> \(.*\)$')
-    if expr "$link" : '/.*' > /dev/null; then
-        PRG="$link"
-    else
-        PRG=$(dirname "$PRG")/"$link"
-    fi
-done
-SAVED="`pwd`"
-cd "$(dirname "$PRG")/" >/dev/null
-APP_HOME="`pwd -P`"
-cd "$SAVED" >/dev/null
 
 CLASSPATH=$APP_HOME/gradle/wrapper/gradle-wrapper.jar
 
@@ -64,16 +73,20 @@ if [ -n "$JAVA_HOME" ] ; then
         JAVACMD="$JAVA_HOME/bin/java"
     fi
     if [ ! -x "$JAVACMD" ] ; then
-        die "ERROR: JAVA_HOME is set to an invalid directory: $JAVA_HOME"
+        die "ERROR: JAVA_HOME is set to an invalid directory: $JAVA_HOME
+Please set the JAVA_HOME variable in your environment to match the
+location of your Java installation."
     fi
 else
     JAVACMD="java"
-    which java >/dev/null 2>&1 || die "ERROR: JAVA_HOME is not set and no 'java' command could be found in your PATH."
+    which java >/dev/null 2>&1 || die "ERROR: JAVA_HOME is not set and no 'java' command could be found in your PATH.
+Please set the JAVA_HOME variable in your environment to match the
+location of your Java installation."
 fi
 
 # Increase the maximum file descriptors if possible.
-if [ "$cygwin" = "false" -a "$darwin" = "false" ] ; then
-    MAX_FD_LIMIT=$(ulimit -H -n)
+if [ "$cygwin" = "false" -a "$darwin" = "false" -a "$nonstop" = "false" ] ; then
+    MAX_FD_LIMIT=`ulimit -H -n`
     if [ $? -eq 0 ] ; then
         if [ "$MAX_FD" = "maximum" -o "$MAX_FD" = "max" ] ; then
             MAX_FD="$MAX_FD_LIMIT"
@@ -87,12 +100,28 @@ if [ "$cygwin" = "false" -a "$darwin" = "false" ] ; then
     fi
 fi
 
-# For Darwin, add options to specify dock name and icon.
+# For Darwin, add options to specify dock name
 if $darwin; then
     GRADLE_OPTS="$GRADLE_OPTS \"-Xdock:name=$APP_NAME\" \"-Xdock:icon=$APP_HOME/media/gradle.icns\""
 fi
 
-exec "$JAVACMD" $JAVA_OPTS $GRADLE_OPTS \
-  -classpath "$CLASSPATH" \
-  org.gradle.wrapper.GradleWrapperMain \
-  "$@"
+# For Cygwin, switch paths to Windows format before running java
+if $cygwin ; then
+    APP_HOME=`cygpath --path --mixed "$APP_HOME"`
+    CLASSPATH=`cygpath --path --mixed "$CLASSPATH"`
+    JAVACMD=`cygpath --unix "$JAVACMD"`
+
+    # We build the arguments to java into a single variable
+    for arg in "$@" ; do
+        if [ -n "$GRADLE_OPTS" ] ; then
+            GRADLE_OPTS="$GRADLE_OPTS \"$arg\""
+        else
+            GRADLE_OPTS="\"$arg\""
+        fi
+    done
+fi
+
+# Collect all arguments for java command.
+JAVA_OPTS="$DEFAULT_JVM_OPTS $JAVA_OPTS $GRADLE_OPTS"
+
+exec "$JAVACMD" -cp "$CLASSPATH" org.gradle.wrapper.GradleWrapperMain "$@"
