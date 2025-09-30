@@ -1,14 +1,20 @@
 workflows:
   android:
-    name: Android Build
+    name: APK Build
     max_build_duration: 30
     environment:
       vars:
-        GRADLE_VERSION: 8.5
+        GRADLEW_VERSION: 8.7
     scripts:
+      - name: Prepare Gradle wrapper (8.7)
+        script: |
+          if [ ! -f "./gradlew" ]; then
+            sdk install gradle ${GRADLEW_VERSION}
+            gradle wrapper --gradle-version ${GRADLEW_VERSION}
+          fi
+          chmod +x ./gradlew
       - name: Build Debug APK
         script: |
-          cd app
-          gradle build
+          ./gradlew :app:assembleDebug --stacktrace --warning-mode all
     artifacts:
       - app/build/outputs/**/*.apk
