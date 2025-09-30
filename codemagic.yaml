@@ -5,8 +5,6 @@ workflows:
     environment:
       vars:
         GRADLE_VERSION: 8.5
-      android:
-        image: latest
     scripts:
       - name: Build Debug APK
         script: |
