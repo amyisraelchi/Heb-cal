@@ -17,4 +17,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Heb-cal"
-include ':app'
+include(":app")
