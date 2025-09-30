@@ -20,7 +20,9 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile(
+                'proguard-android-optimize.txt'
+            ), 'proguard-rules.pro'
         }
     }
 
@@ -35,8 +37,8 @@ android {
 }
 
 dependencies {
-    // ✅ Correct SmartSpacer SDK
-    implementation 'com.kieronquinn.smartspacer:sdk-plugin:1.1'
+    // SmartSpacer SDK
+    implementation 'com.github.KieronQuinn.Smartspacer:sdk-plugin:1.1'
 
     // Networking
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -52,7 +54,4 @@ dependencies {
 
     // Location (optional)
     implementation 'com.google.android.gms:play-services-location:21.0.1'
-
-    // WorkManager for scheduling updates
-    implementation 'androidx.work:work-runtime-ktx:2.8.1'
 }
