@@ -5,8 +5,6 @@ workflows:
     environment:
       vars:
         GRADLE_OPTS: "-Xmx4096m -Dorg.gradle.daemon=false -Dorg.gradle.jvmargs='-Xmx4096m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8'"
-      android:
-        sdk: 34
       java: 17
     scripts:
       - name: Build Debug APK
