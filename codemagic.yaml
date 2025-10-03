@@ -1,14 +1,13 @@
 workflows:
   android-debug:
-    name: Build Debug APK
+    name: Android Debug Build
     environment:
-      vars:
-        GRADLE_OPTS: "-Xmx2048m -Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=-Xmx2048m"
+      sdk: 34
       java: 17
     scripts:
       - name: Set gradlew permissions
-        script: chmod +x ./gradlew
+        script: chmod +x gradlew
       - name: Build Debug APK
-        script: ./gradlew :app:assembleDebug --stacktrace --warning-mode all
+        script: ./gradlew assembleDebug
     artifacts:
       - app/build/outputs/**/*.apk
